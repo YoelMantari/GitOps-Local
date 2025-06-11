@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+echo "Ejecutando  pre-commit"
+
+# Ruta al script validate.sh
+SCRIPT="$(dirname "$0")/../scripts/validate.sh"
+
+echo "Ruta de script  $SCRIPT"  
+
+# Verificar si existe el script
+if [ ! -f "$SCRIPT" ] ; then
+  echo "Error: no se encontro validate.sh en $SCRIPT"
+  exit 1
+fi
+
+# Ejecutar validacion
+if ! "$SCRIPT"; then
+  echo "Error: Validacion falló. Corregir errores antes de commitear"
+  exit 1
+fi
+
+echo "Validacion exitosa - procediendo con el commit"
+exit 0

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+echo "Ejecutandose hook: commit-msg"
+MSG_FILE="$1"
+PATTERN='^(feat|fix|docs|chore|ci|refactor|test)(\([a-z0-9_-]+\))?: .{1,50}$'
+
+if ! grep -Eq "$PATTERN" "$MSG_FILE"; then
+  echo "Mensaje de commit invalido."
+  echo "Debe seguir patron: tipo(alcance): descripción breve"
+  exit 1
+fi
