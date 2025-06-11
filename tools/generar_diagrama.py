@@ -14,3 +14,24 @@ def buscar_archivos_estado(raiz_tf: Path) -> list[Path]:
     """
     return list(raiz_tf.rglob("*.tfstate"))
 
+
+def extraer_recursos(ruta_estado: Path) -> list[str]:
+    """
+    Lee un archivo .tfstate y extrae las listas de recursos aplicados
+    por cada recurso devuelve una cadena con su modulo, tipo y nombre
+    """
+
+    datos = json.loads(ruta_estado.read_text())
+    nodos: list[str] = []
+
+    for recurso in datos.get("resources", []):
+        modulo = recurso.get("module", "")
+        tipo = recurso["type"]
+        nombre = recurso["name"]
+        direccion = (
+            f"{modulo} {tipo} {nombre}"
+            if modulo else f"{tipo} {nombre}"
+            )
+        nodos.append(direccion)
+    return nodos
+
