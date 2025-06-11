@@ -1,21 +1,35 @@
 #!/usr/bin/env bash
 
-path="terraform/servicio_a"
+modulos=("terraform/servicio_a" "terraform/servicio_b")
 
-echo "Iniciando modulo 'servicio_a'"
-terraform -chdir=$path init
+for modulo in "${modulos[@]}"
+do
+    servicio="$(basename modulo)"
 
-echo "Ejecutando: terraform fmt"
-terraform -chdir=$path fmt
+    echo "Ejecutando: terraform fmt en $servicio"
+    terraform -chdir=$modulo fmt --recursive --check
 
-echo "Ejecutando: terraform validate"
-terraform -chdir=$path validate
+    if [ $? -ne 0 ]; then
+        echo "Formato incorrecto en archivos de Terraform."
+        exit 1
+    else
+        echo "Formato adecuado."
+    fi
 
-if [ $? -ne 0 ]; then
-    echo "Validacion fallida"
-    exit 1
+    echo "Ejecutando: terraform validate"
+    terraform -chdir=$modulo validate
 
-else
-    echo "Validacion exitosa"
-    exit 0
-fi
+    if [ $? -ne 0 ]; then
+        echo "Validacion fallida"
+        exit 1
+    fi
+
+    echo "Detectando cambios en archivos '.tf'"
+    cambios=$(git status --porcelain *.tf)
+    if [ -n "$cambios" ]; then
+        echo "Hay cambios pendientes por confirmar"
+        exit 1
+    else
+        echo "No hay cambios por confirmar. Todo ok"
+    fi
+done
