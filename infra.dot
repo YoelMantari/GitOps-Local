@@ -1,0 +1,5 @@
+digraph Infra {
+ graph [rankdir=LR];
+ "null_resource servicio_dummy_b" [shape=box];
+ "null_resource servicio_dummy_a" [shape=box];
+}
