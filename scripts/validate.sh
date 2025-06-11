@@ -24,9 +24,10 @@ do
         exit 1
     fi
 
-    echo "Detectando cambios en archivos '.tf'"
-    cambios=$(git status --porcelain *.tf)
-    if [ -n "$cambios" ]; then
+    echo "Detectando cambios en archivos '.tf' no confirmados"
+    #cambios=$(git status --porcelain *.tf)
+    git diff --name-only --exit-code "*.tf" >/dev/null
+    if [ $? -ne 0 ]; then
         echo "Hay cambios pendientes por confirmar"
         exit 1
     else
