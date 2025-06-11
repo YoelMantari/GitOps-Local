@@ -43,73 +43,7 @@ Ejecutar el script `validate.sh`
 ```sh
 ./scripts/validate.sh 
 ```
-
-Aquí te dejo tu **README actualizado** con todo lo que tú ya tienes + lo que has hecho del `generar_diagrama.py`, `infra.dot` e `infra.png`, de manera clara y bien estructurada:
-
-````markdown
-# GitOps-Local
-
-## Estructura del proyecto
-
-```text
-└── terraform
-    ├── servicio_a
-    │   ├── main.tf
-    │   └── terraform.tfstate
-    └── servicio_b
-        ├── main.tf
-        └── terraform.tfstate
-├── scripts
-│   └── validate.sh
-├── tools
-│   └── generar_diagrama.py
-├── infra.dot
-├── infra.png
-├── CHANGELOG.md
-├── README.md
-````
-
----
-
-## Configuración de Git hooks
-
-Para definir la carpeta que usará Git para lanzar los hooks personalizados:
-
-```sh
-git config core.hooksPath .git_hooks
-```
-
----
-
-## Validación de los módulos Terraform
-
-Estando en el directorio raíz del proyecto:
-
-```sh
-cd terraform/servicio_a
-terraform init
-```
-
-Repetir para:
-
-```sh
-cd ../servicio_b
-terraform init
-```
-
-Luego regresar al directorio raíz:
-
-```sh
-cd ../..
-# Y se debe encontrar en 
-.../GitOps-Local
-```
-
-Ejecutar el script `validate.sh` para validar el formato y la sintaxis de los módulos:
-
-```sh
-./scripts/validate.sh
-```
+Este script `validate.sh` tambien se ejecuta durante el hook `pre-commit`
 
 
 ## Generación del diagrama de infraestructura
