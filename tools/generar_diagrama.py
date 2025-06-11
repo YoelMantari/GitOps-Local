@@ -1,5 +1,4 @@
 import json
-import sys
 from pathlib import Path
 
 raiz_terraform = Path("terraform")
@@ -42,9 +41,32 @@ def generar_dot(nodos: list[str]) -> str:
     y retorna un string para el contenido del archivo .dot
     """
 
-    lineas = ["digraph Infra {", " graph [rankdir=LR]};"]
+    lineas = ["digraph Infra {", " graph [rankdir=LR];"]
     for nodo in nodos:
-        lineas.append(f" '{nodo}' [shape=box];")
+        lineas.append(f' "{nodo}" [shape=box];')
     lineas.append("}")
     return "\n".join(lineas)
 
+
+def main():
+    # se busca los archivos .tfstate en la carpeta terraform
+    estados_tf = buscar_archivos_estado(raiz_terraform)
+    if not estados_tf:
+        raise RuntimeError(
+            f"No se encontro ningun .tfstate en la carpeta {raiz_terraform}"
+            )
+
+    nodos: list[str] = []
+
+    # se extrae los recursos de cada archivo
+    # .tfstate y agregarlos a la lista de nodos
+    for estado in estados_tf:
+        nodos.extend(extraer_recursos(estado))
+
+    # se genera el grafo dot y se escribe el archivo
+    dot = generar_dot(nodos)
+    arch_dot.write_text(dot)
+
+
+if __name__ == "__main__":
+    main()
