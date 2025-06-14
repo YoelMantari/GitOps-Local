@@ -1,5 +1,45 @@
 # GitOps-Local
 
+## Sprint 2
+
+### Estructura del proyecto
+
+├── CHANGELOG.md
+├── infra.dot
+├── infra.png
+├── README.md
+├── requirements.txt
+├── scripts
+│   ├── deploy_all.sh
+│   └── validate.sh
+├── terraform
+│   ├── servicio_a
+│   │   └── main.tf
+│   ├── servicio_b
+│   │   └── main.tf
+│   ├── servicio_c
+│   │   ├── main.tf
+│   └── servicio_d
+│       └── main.tf
+└── tools
+    └── generar_diagrama.py
+
+
+### Paso 1
+Estando el el directorio raíz `/GitOps-Local`
+
+```sh
+$ ./scripts/deploy_all.sh 
+```
+
+
+
+
+
+
+
+
+## Sprint 1
 
 Estructura del proyecto
 
@@ -61,3 +101,4 @@ python3 tools/generar_diagrama.py > infra.dot
 ```sh
 dot -Tpng infra.dot -o infra.png
 ```
+
