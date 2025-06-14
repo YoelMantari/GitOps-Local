@@ -4,6 +4,7 @@
 
 ### Estructura del proyecto
 
+```text
 ├── CHANGELOG.md
 ├── infra.dot
 ├── infra.png
@@ -23,6 +24,7 @@
 │       └── main.tf
 └── tools
     └── generar_diagrama.py
+```
 
 
 ### Paso 1
@@ -86,11 +88,11 @@ Ejecutar el script `validate.sh`
 Este script `validate.sh` tambien se ejecuta durante el hook `pre-commit`
 
 
-## Generación del diagrama de infraestructura
+### Generación del diagrama de infraestructura
 
 Se incluye `tools/generar_diagrama.py` que permite generar automáticamente un grafo DOT con los recursos aplicados.
 
-##### Generar `infra.dot`:
+#### Generar `infra.dot`:
 
 ```sh
 python3 tools/generar_diagrama.py > infra.dot
