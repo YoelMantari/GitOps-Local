@@ -4,21 +4,28 @@ set -e
 set -u
 # set -x
 
-modulos=("servicio_a" "servicio_b" "servicio_c" "servicio_d")
+GREEN='\033[0;32m'
+NC='\033[0m'
 
-for modulo in ${modulos[@]}; do
-    
+MODULOS=("servicio_a" "servicio_c" "servicio_b" "servicio_d")
+TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+DIR_LOG="logs"
+FILE_LOG="deploy_$TIMESTAMP.log"
+mkdir -p $DIR_LOG
+
+echo "Iniciando deploy de modulos"
+for modulo in ${MODULOS[@]}; do
+    echo ""
     ruta="terraform/$modulo"
-    
     echo "Ejecutando terraform init en $modulo"
-    terraform -chdir=$ruta init
+    terraform -chdir=$ruta init -no-color >> "$DIR_LOG"/"$FILE_LOG" 2>&1
     if [ $? -ne  0 ]; then
         echo "Error al inicializar el directorio de Terraform para $modulo"
         exit 1
     fi
 
     echo "Ejecutando terraform apply -auto-approve"
-    terraform -chdir=$ruta apply -auto-approve
+    terraform -chdir=$ruta apply -auto-approve -no-color >> "$DIR_LOG"/"$FILE_LOG" 2>&1
     if [ $? -ne 0 ]; then
         echo "Error al ejecutar terraform apply -auto-approve"
         exit 1
@@ -26,7 +33,8 @@ for modulo in ${modulos[@]}; do
     echo "Modulo $modulo desplegado con exito ✅"
 done
 
-echo "Todos los modulos se desplegaron con exito."
+echo ""
+printf "${GREEN}Todos los modulos se desplegaron con exito.${NC}\n"
 
 # Implementar en Bash un script deploy_all.sh que:
 # Haga terraform init y terraform apply -auto-approve 
