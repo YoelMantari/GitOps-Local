@@ -34,12 +34,26 @@ Estando el el directorio raíz `/GitOps-Local`
 $ ./scripts/deploy_all.sh 
 ```
 
+# Una cola dummy (un proceso Python que escuche en un puerto local).
+Comprobar que el proceso Python esta escuchando en un puerto local.
 
+```sh
+netstat -ltnp | grep 1234
+```
 
+- `-l`: solo sockets en **escucha**
+- `t` : solo **TCP**.
+- `-n`: Muestra IP y puerto
+- `-p`: Muestra el programa/proceso que abrió el puerto
 
+**Nota**
+Omitir `-p` si hay porblemas con sudo.
 
+Para matar el proceso manualmente:
 
-
+```sh
+kill <PID>
+```
 
 ## Sprint 1
 
