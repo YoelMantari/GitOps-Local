@@ -14,3 +14,11 @@
 # Dia 5
 - Defini el `null_resource` para los servicios servicio_c y servicio_d (commit: `28d9b20`)
 - Implemente el script `deploy_all.sh` (commit: `28d9b20`)
+
+# Dia 6
+- Se agrega script en python `cola_dummy.py` para iniciar proceso que escuche en un puerto local (`1234`) (commit: `a500b72`)
+- Se mejora script en bash `deploy_all.sh` (commit: `76f99b5`) para
+  - Capturar la salida al ejecutar comandos terraform y enviarlos a `logs/deploy_<timestamp>.log`
+  - Mejorar salida de script
+  - Mejorar presentación de script. Agregar color verde para ultima linea de salida cuando todos los despliegues han sido exitosos.
+- Se modifica `main.tf` en modulo `servicio_d` para que `command` ejecute correctamente el script `cola_dummy.py` (commit: `37faf2d`)
