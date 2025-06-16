@@ -14,25 +14,43 @@ def buscar_archivos_estado(raiz_tf: Path) -> list[Path]:
     return list(raiz_tf.rglob("*.tfstate"))
 
 
-def extraer_recursos(ruta_estado: Path) -> list[str]:
+def extraer_recursos_dependencias(
+    ruta_estado: Path
+) -> tuple[list[str], list[tuple[str, str]]]:
     """
-    Lee un archivo .tfstate y extrae las listas de recursos aplicados
-    por cada recurso retorna una cadena con su modulo, tipo y nombre
+    Lee un archivo .tfstate y los nombres de recursos y
+    sus dependencias, y
+    retorna una lista de nodos y aristas
     """
 
     datos = json.loads(ruta_estado.read_text())
     nodos: list[str] = []
+    aristas: list[tuple[str, str]] = []
 
     for recurso in datos.get("resources", []):
         modulo = recurso.get("module", "")
         tipo = recurso["type"]
         nombre = recurso["name"]
-        direccion = (
+
+        nombre_dst = (
             f"{modulo} {tipo} {nombre}"
             if modulo else f"{tipo} {nombre}"
             )
-        nodos.append(direccion)
-    return nodos
+
+        nodos.append(nombre_dst)
+
+        for instancia in recurso.get("instances", []):
+            for dep in instancia.get("dependencies", []):
+
+                partes = dep.split(".")
+                if partes[0] == "module":
+                    nombre_src = f"{partes[0]}.{partes[1]} {partes[2]} {partes[3]}"
+                else:
+                    nombre_src = f"{partes[0]} {partes[1]}"
+
+                aristas.append((nombre_src, nombre_dst))
+
+    return nodos, aristas
 
 
 def generar_dot(nodos: list[str]) -> str:
@@ -56,16 +74,18 @@ def main():
             f"No se encontro ningun .tfstate en la carpeta {raiz_terraform}"
             )
 
-    nodos: list[str] = []
-
+    nodos_total: list[str] = []
+    aristas_total: list[tuple[str, str]] = []
     # se extrae los recursos de cada archivo
     # .tfstate y agregarlos a la lista de nodos
     for estado in estados_tf:
-        nodos.extend(extraer_recursos(estado))
+        nodos, aristas = extraer_recursos_dependencias(estado)
+        nodos_total.extend(nodos)
+        aristas_total.extend(aristas)
 
     # se genera el grafo dot y se escribe el archivo
-    dot = generar_dot(nodos)
-    arch_dot.write_text(dot)
+    #dot = generar_dot(nodos)
+    #arch_dot.write_text(dot)
 
 
 if __name__ == "__main__":
