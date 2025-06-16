@@ -24,4 +24,4 @@
 - Se modifica `main.tf` en modulo `servicio_d` para que `command` ejecute correctamente el script `cola_dummy.py` (commit: `37faf2d`)
 - Se modificó hook `commit-msg` para que (alcance) pueda aceptar letras mayusculas.
 - Se refactorizo script `validate.sh` para mejor presentación y para que realice validaciones en modulos `servicio_c` y `servicio_d` y color en los mensajes de salida (commit `68c6226`).
-- Se refactorizo script `instala_servicio.sh` para que sea el script responsable de iniciar la simulacion de instalación de los servicios dummy `servicio_a` y `servicio_b` (commit `960da79`)
+- Se refactorizo script `instala_servicio.sh` para que sea el script responsable de iniciar la simulacion de instalación de los servicios dummy `servicio_a` y `servicio_b` (commit `960da79`).
