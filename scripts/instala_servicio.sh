@@ -1,11 +1,20 @@
-APP_NAME=$1
+#!/usr/bin/bash
+
+set -e
+
+SERVICE_NAME=$1
 INSTALL_PATH=$2
 
-echo "Instalando $APP_NAME ..."
-echo "$APP_NAME se esta instalando en $INSTALL_PATH"
+echo "Instalando $SERVICE_NAME ..."
+echo "$SERVICE_NAME se esta instalando en $INSTALL_PATH"
+echo "Iniciando la instalacion de '$SERVICE_NAME ..."
+if [ ! -d "$INSTALL_PATH" ]; then
+    mkdir -p "$INSTALL_PATH"
+fi
 
-for  in {1..5}; do
-    echo "Instalando dependencia $i"
-done
-
-echo "Ha finalizado la instalacion"
+if [ ! -f "$INSTALL_PATH/$SERVICE_NAME" ]; then
+    echo "Servicio dummy instalado el $(date +%Y-%m-%d) a las $(date +%H:%M:%S)" >> "$INSTALL_PATH"/"$SERVICE_NAME"
+    echo "Realizando configuraciones necesarias..."
+    echo "Verificando dependencias"
+    echo "Ha finalizado la instalacion exitosamente"
+fi
