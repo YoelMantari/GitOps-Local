@@ -6,35 +6,61 @@
 
 ```text
 ├── CHANGELOG.md
-├── infra.dot
-├── infra.png
 ├── README.md
-├── requirements.txt
 ├── scripts
+│   ├── cola_dummy.py
 │   ├── deploy_all.sh
+│   ├── instala_servicio.sh
 │   └── validate.sh
 ├── terraform
 │   ├── servicio_a
-│   │   └── main.tf
+│   │   ├── main.tf
 │   ├── servicio_b
-│   │   └── main.tf
+│   │   ├── main.tf
 │   ├── servicio_c
 │   │   ├── main.tf
 │   └── servicio_d
-│       └── main.tf
+│       ├── main.tf
 └── tools
     └── generar_diagrama.py
 ```
 
+### Paso 0
+
+Para definir la carpeta que usara Git para lanzar los hooks:
+
+```sh
+git config core.hooksPath .git_hooks
+```
+
+Asignar los permisos necesarios a los scripts
+
+```sh
+GitOps-Local$ chmod +x scripts/deploy_all.sh
+GitOps-Local$ chmod +x scripts/instala_servicio.sh
+GitOps-Local$ chmod +x scripts/validate.sh
+```
+
+Modificar variables:
+
+- Variable `ruta_raiz_proyecto` con la ruta adecuada
+
+```python
+variable "ruta_raiz_proyecto" {
+  description = "Ruta raiz del directorio principal del proyecto"
+  type = string
+  default = "/home/dirac/Documents/DS/GitOps-Local/" # Modificar aqui
+}
+```
 
 ### Paso 1
 Estando el el directorio raíz `/GitOps-Local`
 
 ```sh
-$ ./scripts/deploy_all.sh 
+GitOps-Local$ ./scripts/deploy_all.sh 
 ```
 
-# Una cola dummy (un proceso Python que escuche en un puerto local).
+### Paso 2
 Comprobar que el proceso Python esta escuchando en un puerto local.
 
 ```sh
@@ -53,6 +79,15 @@ Para matar el proceso manualmente:
 
 ```sh
 kill <PID>
+```
+
+### Paso 3
+Generar el diagrama.
+Estando situado en el directorio raíz del proyecto
+
+```sh
+GitOps-Local$ python3 tools/generar_diagrama.py
+GiOps-Local$ dot -Tpng infra.dot -o infra.png
 ```
 
 ## Sprint 1
