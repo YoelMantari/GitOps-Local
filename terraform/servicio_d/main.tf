@@ -1,12 +1,12 @@
 variable "python_exec" {
   description = "Ruta al ejecutable de Python."
   type        = string
-  default     = "/home/dirac/Documents/DS/GitOps-Local/.venv/bin/python3.12"
+  default     = "/usr/bin/python3.12"
 }
 
 locals {
 
-  ruta_raiz_proyecto = "/home/dirac/Documents/DS/GitOps-Local"
+  ruta_raiz_proyecto = "/home/YoeMant/Documents/CodeSublime/GitOps-Local"
 
 }
 

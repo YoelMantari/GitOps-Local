@@ -18,7 +18,7 @@ def extraer_recursos_dependencias(
     ruta_estado: Path
 ) -> tuple[list[str], list[tuple[str, str]]]:
     """
-    Lee un archivo .tfstate y los nombres de recursos y
+    Lee un archivo .tfstate y extrae los nombres de recursos y
     sus dependencias, y
     retorna una lista de nodos y aristas
     """
@@ -28,28 +28,20 @@ def extraer_recursos_dependencias(
     aristas: list[tuple[str, str]] = []
 
     for recurso in datos.get("resources", []):
-        modulo = recurso.get("module", "")
-        tipo = recurso["type"]
-        nombre = recurso["name"]
+        if recurso["type"] != "null_resource":
+            continue
 
-        nombre_dst = (
-            f"{modulo} {tipo} {nombre}"
-            if modulo else f"{tipo} {nombre}"
-            )
+        dst = f"{recurso['type']} {recurso['name']}"
 
-        nodos.append(nombre_dst)
-
+        # extraer las dependencias
         for instancia in recurso.get("instances", []):
             for dep in instancia.get("dependencies", []):
 
                 partes = dep.split(".")
-                if partes[0] == "module":
-                    nombre_src = f"{partes[0]}.{partes[1]} {partes[2]} {partes[3]}"
-                else:
-                    nombre_src = f"{partes[0]} {partes[1]}"
-
-                aristas.append((nombre_src, nombre_dst))
-
+                if len(partes) >= 2 and partes[-2] == "null_resource":
+                    src = f"{partes[-2]} {partes[-1]}"
+                    if (src, dst) not in aristas:
+                        aristas.append((src, dst))
     return nodos, aristas
 
 
