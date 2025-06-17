@@ -26,3 +26,8 @@ def validar_servicio_b() -> str:
     return "ok" if f.exists() else f"No existe {f}"
 
 
+def validar_servicio_c() -> str:
+
+    f = raiz_proyecto / "terraform" / "servicio_c" / "servicios" / "db_dummy.txt"
+    return "ok" if f.exists() else f"No existe {f}"
+\
