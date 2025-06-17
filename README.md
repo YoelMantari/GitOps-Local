@@ -1,5 +1,96 @@
 # GitOps-Local
 
+## Sprint 2
+
+### Estructura del proyecto
+
+```text
+├── CHANGELOG.md
+├── README.md
+├── scripts
+│   ├── cola_dummy.py
+│   ├── deploy_all.sh
+│   ├── instala_servicio.sh
+│   └── validate.sh
+├── terraform
+│   ├── servicio_a
+│   │   ├── main.tf
+│   ├── servicio_b
+│   │   ├── main.tf
+│   ├── servicio_c
+│   │   ├── main.tf
+│   └── servicio_d
+│       ├── main.tf
+└── tools
+    └── generar_diagrama.py
+```
+
+### Paso 0
+
+Para definir la carpeta que usara Git para lanzar los hooks:
+
+```sh
+git config core.hooksPath .git_hooks
+```
+
+Asignar los permisos necesarios a los scripts
+
+```sh
+GitOps-Local$ chmod +x scripts/deploy_all.sh
+GitOps-Local$ chmod +x scripts/instala_servicio.sh
+GitOps-Local$ chmod +x scripts/validate.sh
+```
+
+Modificar variables:
+
+- Variable `ruta_raiz_proyecto` con la ruta adecuada
+
+```python
+variable "ruta_raiz_proyecto" {
+  description = "Ruta raiz del directorio principal del proyecto"
+  type = string
+  default = "/home/dirac/Documents/DS/GitOps-Local/" # Modificar aqui
+}
+```
+
+### Paso 1
+Estando el el directorio raíz `/GitOps-Local`
+
+```sh
+GitOps-Local$ ./scripts/deploy_all.sh 
+```
+
+### Paso 2
+Comprobar que el proceso Python esta escuchando en un puerto local.
+
+```sh
+netstat -ltnp | grep 1234
+```
+
+- `-l`: solo sockets en **escucha**
+- `t` : solo **TCP**.
+- `-n`: Muestra IP y puerto
+- `-p`: Muestra el programa/proceso que abrió el puerto
+
+**Nota**
+Omitir `-p` si hay porblemas con sudo.
+
+Para matar el proceso manualmente:
+
+```sh
+kill <PID>
+```
+
+### Paso 3
+Generar el diagrama.
+Estando situado en el directorio raíz del proyecto
+
+```sh
+GitOps-Local$ python3 tools/generar_diagrama.py
+GiOps-Local$ dot -Tpng infra.dot -o infra.png
+```
+
+## Sprint 1
 
 Estructura del proyecto
 
@@ -46,11 +137,11 @@ Ejecutar el script `validate.sh`
 Este script `validate.sh` tambien se ejecuta durante el hook `pre-commit`
 
 
-## Generación del diagrama de infraestructura
+### Generación del diagrama de infraestructura
 
 Se incluye `tools/generar_diagrama.py` que permite generar automáticamente un grafo DOT con los recursos aplicados.
 
-##### Generar `infra.dot`:
+#### Generar `infra.dot`:
 
 ```sh
 python3 tools/generar_diagrama.py > infra.dot
@@ -61,3 +152,4 @@ python3 tools/generar_diagrama.py > infra.dot
 ```sh
 dot -Tpng infra.dot -o infra.png
 ```
+

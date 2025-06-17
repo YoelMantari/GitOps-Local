@@ -1,5 +1,27 @@
-resource "null_resource" "servicio_dummy_b" {
+module "servicio_c" {
+  source = "../servicio_c"
+}
+
+locals {
+
+  ruta_raiz_proyecto = "/home/dirac/Documents/DS/GitOps-Local"
+
+  ruta_servicios_simulados = "${local.ruta_raiz_proyecto}/servicios_simulados"
+
+}
+
+variable "service_name" {
+  description = "Nombre del servicio dummy a instalar"
+  type        = string
+  default     = "servicio_dummy_B.service"
+}
+
+
+resource "null_resource" "servicio_b" {
+
+  depends_on = [module.servicio_c]
+
   provisioner "local-exec" {
-    command = "echo Se instalo 'servicio_dummy_b'"
+    command = "${local.ruta_raiz_proyecto}/scripts/instala_servicio.sh ${var.service_name} ${local.ruta_servicios_simulados}"
   }
 }
