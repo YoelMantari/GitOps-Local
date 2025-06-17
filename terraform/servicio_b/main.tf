@@ -4,7 +4,7 @@ module "servicio_c" {
 
 locals {
 
-  ruta_raiz_proyecto = "/home/dirac/Documents/DS/GitOps-Local"
+  ruta_raiz_proyecto = "/home/YoeMant/Documents/CodeSublime/GitOps-Local"
 
   ruta_servicios_simulados = "${local.ruta_raiz_proyecto}/servicios_simulados"
 
