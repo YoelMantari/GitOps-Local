@@ -12,9 +12,12 @@ if [ ! -d "$INSTALL_PATH" ]; then
     mkdir -p "$INSTALL_PATH"
 fi
 
-if [ ! -f "$INSTALL_PATH/$SERVICE_NAME" ]; then
+if [ ! -f "${INSTALL_PATH}/${SERVICE_NAME}" ]; then
     echo "Servicio dummy instalado el $(date +%Y-%m-%d) a las $(date +%H:%M:%S)" >> "$INSTALL_PATH"/"$SERVICE_NAME"
     echo "Realizando configuraciones necesarias..."
     echo "Verificando dependencias"
     echo "Ha finalizado la instalacion exitosamente"
+else
+    echo "El servicio ${SERVICE_NAME} ya existe"
+    exit 0
 fi
