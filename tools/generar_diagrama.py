@@ -32,7 +32,8 @@ def extraer_recursos_dependencias(
             continue
 
         dst = f"{recurso['type']} {recurso['name']}"
-
+        nodos.append(dst)
+        
         # extraer las dependencias
         for instancia in recurso.get("instances", []):
             for dep in instancia.get("dependencies", []):
@@ -45,15 +46,30 @@ def extraer_recursos_dependencias(
     return nodos, aristas
 
 
-def generar_dot(nodos: list[str]) -> str:
+def generar_dot(
+    nodos: list[str],
+    aristas: list[tuple[str, str]]
+) -> str:
+
     """
     Genera el texto para el grafo dot a partir de una lista de nodos
     y retorna un string para el contenido del archivo .dot
     """
 
-    lineas = ["digraph Infra {", " graph [rankdir=LR];"]
-    for nodo in nodos:
-        lineas.append(f' "{nodo}" [shape=box];')
+    lineas = ["digraph Infra {", "  graph [rankdir=LR];"]
+
+    for nodo in dict.fromkeys(nodos):
+        if "servicio_c" in nodo:
+            shape = "cylinder"
+        elif "servicio_d" in nodo:
+            shape = "trapezium"
+        else:
+            shape = "box"
+        lineas.append(f'  "{nodo}" [shape={shape}];')
+
+    for ini, dest in dict.fromkeys(aristas):
+        lineas.append(f'  "{ini}" -> "{dest}";')
+
     lineas.append("}")
     return "\n".join(lineas)
 
@@ -68,6 +84,7 @@ def main():
 
     nodos_total: list[str] = []
     aristas_total: list[tuple[str, str]] = []
+
     # se extrae los recursos de cada archivo
     # .tfstate y agregarlos a la lista de nodos
     for estado in estados_tf:
@@ -76,8 +93,8 @@ def main():
         aristas_total.extend(aristas)
 
     # se genera el grafo dot y se escribe el archivo
-    #dot = generar_dot(nodos)
-    #arch_dot.write_text(dot)
+    dot = generar_dot(nodos_total, aristas_total)
+    arch_dot.write_text(dot)
 
 
 if __name__ == "__main__":
