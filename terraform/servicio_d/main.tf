@@ -1,18 +1,30 @@
 variable "python_exec" {
   description = "Ruta al ejecutable de Python."
   type        = string
-  default     = "/home/dirac/Documents/DS/GitOps-Local/.venv/bin/python3.12"
+  default     = "python3"
 }
 
 locals {
 
-  ruta_raiz_proyecto = "/home/dirac/Documents/DS/GitOps-Local"
+  ruta_raiz_proyecto = abspath("${path.module}/../../")
 
 }
+
+# variable ruta_raiz_proyecto {
+#   description = "Ruta del directorio principal del proyecto"
+#   type = string
+# }
+
+# variable ruta_servicios_simulados {
+#   description = "Ruta del directorio donde se guardara todo lo relacionado a los servicios a, b, c y d"
+#   type = string
+# }
 
 
 module "servicio_b" {
   source = "../servicio_b"
+  #ruta_raiz_proyecto = var.ruta_raiz_proyecto
+  #ruta_servicios_simulados = var.ruta_servicios_simulados
 }
 
 variable "ip_cola_dummy" {
