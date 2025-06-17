@@ -6,8 +6,7 @@ module "servicio_a" {
 
 locals {
 
-  ruta_raiz_proyecto = abspath("${path.module}/../../")
-
+  ruta_raiz_proyecto       = abspath("${path.module}/../../")
   ruta_servicios_simulados = abspath("${path.module}/../../servicios_simulados")
 
 }

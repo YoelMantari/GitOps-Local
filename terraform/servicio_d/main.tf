@@ -2,6 +2,7 @@ variable "python_exec" {
   description = "Ruta al ejecutable de Python."
   type        = string
   default     = "python3"
+
 }
 
 locals {

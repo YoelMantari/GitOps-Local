@@ -9,8 +9,10 @@
 # }
 
 locals {
+
   ruta_raiz_proyecto       = abspath("${path.module}/../../")
   ruta_servicios_simulados = abspath("${path.module}/../../servicios_simulados")
+
 }
 
 variable "service_name" {
@@ -34,5 +36,3 @@ resource "null_resource" "servicio_a" {
     # interpreter = ["bash", "-c"]
   }
 }
-
-# command = "${var.ruta_raiz_proyecto}/scripts/instala_servicio.sh ${var.service_name} ${var.ruta_servicios_simulados}"
