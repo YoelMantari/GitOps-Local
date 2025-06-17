@@ -7,7 +7,7 @@ from pathlib import Path
 
 raiz_proyecto = Path(__file__).parents[1]
 raiz_tf = raiz_proyecto / "terraform"
-estado = list(raiz_tf.rglob("*.tfstate"))
+estados = list(raiz_tf.rglob("*.tfstate"))
 reporte_archivo = raiz_proyecto / "reporte_validacion.json"
 servicio_dir = raiz_proyecto / "servicios_simulados"
 cola_host = "127.0.0.1"
@@ -38,3 +38,24 @@ def validar_servicio_d() -> str:
             return "ok"
     except Exception as e:
         return f"La cola no responde en {cola_host}:{cola_port} ({e})"
+
+
+def main() -> int:
+    if not estados:
+        print(f"No se encontraron ningun archivo .tfstate en {raiz_tf}")
+
+    reporte = {
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "servicio_a": validar_servicio_a(),
+        "servicio_b": validar_servicio_b(),
+        "servicio_c": validar_servicio_c(),
+        "servicio_d": validar_servicio_d(),
+    }
+
+    reporte_archivo.write_text(json.dumps(reporte, indent=2, ensure_ascii=False))
+
+    return 0 if all(v == "ok" for v in reporte.values()) else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
