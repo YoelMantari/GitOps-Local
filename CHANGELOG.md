@@ -25,3 +25,9 @@
 - Se modificó hook `commit-msg` para que (alcance) pueda aceptar letras mayusculas.
 - Se refactorizo script `validate.sh` para mejor presentación y para que realice validaciones en modulos `servicio_c` y `servicio_d` y color en los mensajes de salida (commit `68c6226`).
 - Se refactorizo script `instala_servicio.sh` para que sea el script responsable de iniciar la simulacion de instalación de los servicios dummy `servicio_a` y `servicio_b` (commit `960da79`).
+
+
+# Dia 7 
+- Se mejoro script `cola_dummy.py` para que reciba una conexión mediante el comando `nc <IP> <Puerto>` y guarde los mensajes ingresados en una cola.
+- Se modifico los archivos `main.tf` de los modulos de servicio para evitar *harcodeo* de parametros como la ruta absoluta del proyecto o la ruta donde se almacenaran los servicios.
+- Se modifico el archivo `main.tf` principal en la carpeta `terraform` para que se gestione desde alli la inicialización del directorio terraform y los *apply* para cada servicio.
