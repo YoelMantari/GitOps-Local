@@ -5,27 +5,42 @@
 ### Estructura del proyecto
 
 ```text
-GitOps-Local
 ├── CHANGELOG.md
+├── infra.dot
+├── infra.png
+├── logs
+│   ├── deploy_2025(varios)
 ├── README.md
+├── reporte_validacion.json
 ├── scripts
 │   ├── cola_dummy.py
 │   ├── deploy_all.sh
+│   ├── hola.sh
 │   ├── instala_servicio.sh
+│   ├── rollback.sh
 │   └── validate.sh
+├── servicios_simulados
+│   ├── db_dummy.txt
+│   ├── servicio_dummy_A.service
+│   └── servicio_dummy_B.service
 ├── terraform
 │   ├── main.tf
 │   ├── servicio_a
 │   │   ├── main.tf
+│   │   └── terraform.tfstate
 │   ├── servicio_b
 │   │   ├── main.tf
+│   │   └── terraform.tfstate
 │   ├── servicio_c
 │   │   ├── main.tf
+│   │   └── terraform.tfstate
 │   └── servicio_d
 │       ├── main.tf
+│       └── terraform.tfstate
 └── tools
     ├── generar_diagrama.py
     └── verificar_estado.py
+
 ```
 
 ### Paso 0
@@ -46,13 +61,13 @@ GitOps-Local$ chmod +x scripts/validate.sh
 
 Modificar variables:
 
-La ruta de ejecución de Python, solo si es necesario. Se muestra el valor por defecto:
+Modificar la ruta de ejecución de Python en el archivo `main.tf` del modulo `servicio_d`
 
 ```python
-variable "ruta_raiz_proyecto" {
-  description = "Ruta raiz del directorio principal del proyecto"
-  type = string
-  default = "python3" # Modificar aqui
+variable "python_exec" {
+  description = "Ruta al ejecutable de Python."
+  type        = string
+  default     = "python3" # Modifica aqui
 }
 ```
 
