@@ -14,6 +14,7 @@ GitOps-Local
 │   ├── instala_servicio.sh
 │   └── validate.sh
 ├── terraform
+│   ├── main.tf
 │   ├── servicio_a
 │   │   ├── main.tf
 │   ├── servicio_b
@@ -45,13 +46,13 @@ GitOps-Local$ chmod +x scripts/validate.sh
 
 Modificar variables:
 
-- Variable `ruta_raiz_proyecto` con la ruta adecuada
+La ruta de ejecución de Python, solo si es necesario. Se muestra el valor por defecto:
 
 ```python
 variable "ruta_raiz_proyecto" {
   description = "Ruta raiz del directorio principal del proyecto"
   type = string
-  default = "/home/dirac/Documents/DS/GitOps-Local/" # Modificar aqui
+  default = "python3" # Modificar aqui
 }
 ```
 
@@ -74,8 +75,19 @@ netstat -ltnp | grep 1234
 - `-n`: Muestra IP y puerto
 - `-p`: Muestra el programa/proceso que abrió el puerto
 
+
+Para conectarse, ejecutar en otra terminal:
+
+```sh
+nc localhost 1234
+```
+
+Luego escribir en el terminal los mensajes necesarios. Al hacer enter despues de ingresar cada mensaje, saldra en la siguiente línea "Se agrego: 'aqui el mensaje' a la cola". Si se desea obtener todos los mensajes de la cola, ingresar: "GET".
+
 **Nota**
 Omitir `-p` si hay porblemas con sudo.
+
+
 
 Para matar el proceso manualmente:
 
