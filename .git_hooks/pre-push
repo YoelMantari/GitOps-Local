@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# set -e
+
+echo "Ejecutando validación de estado de servicios antes del push..."
+SCRIPT="tools/verificar_estado.py"
+
+python3 $SCRIPT
+
+# Verificar si existe el script
+if [[ $? -ne 0 ]]; then
+  echo "Validación fallida: el push ha sido cancelado."
+  exit 1
+else
+  echo "Validación exitosa: continuando con el push."
+  exit 0
+fi
+

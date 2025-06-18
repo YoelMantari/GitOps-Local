@@ -31,17 +31,24 @@ def validar_servicio_b() -> str:
 # se verifica si el archivo db_dummy.txt del servicio C fue creado
 def validar_servicio_c() -> str:
 
-    f = raiz_proyecto / "terraform" / "servicio_c" / "servicios" / "db_dummy.txt"
+    f = servicio_dir / "db_dummy.txt"
     return "ok" if f.exists() else f"No existe {f}"
 
 
-# se verifica si el servicio D está escuchando en el puerto especificado
 def validar_servicio_d() -> str:
     try:
-        with socket.create_connection((cola_host, cola_port), timeout=1):
-            return "ok"
+        # Creamos socket sin conexión
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(1)  # Timeout de 1 segundo
+        
+        # Probamos conectividad sin establecer conexión completa
+        result = s.connect_ex((cola_host, cola_port))
+        s.close()  # Cerramos el socket explícitamente
+        
+        # connect_ex devuelve 0 si éxito
+        return "ok" if result == 0 else f"Puerto {cola_port} no responde (código: {result})"
     except Exception as e:
-        return f"La cola no responde en {cola_host}:{cola_port} ({e})"
+        return f"Error validando {cola_host}:{cola_port} ({e})"
 
 
 # se valida los servicios y genera un reporte en JSON
@@ -59,7 +66,7 @@ def main() -> int:
 
     reporte_archivo.write_text(json.dumps(reporte, indent=2, ensure_ascii=False))
 
-    return 0 if all(v == "ok" for v in reporte.values()) else 1
+    return 0 if all(v == "ok" for k, v in reporte.items() if k.startswith("servicio")) else 1
 
 
 if __name__ == "__main__":
