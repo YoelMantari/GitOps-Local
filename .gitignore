@@ -1,10 +1,10 @@
 # Terraform
-.terraform/
-**/terraform.tfstate
-**/.terraform/
-**/.terraform.lock.hcl
+# .terraform/
+# **/terraform.tfstate
+# **/.terraform/
+# **/.terraform.lock.hcl
 
-servicios_simulados/
+# servicios_simulados/
 
 # Entorno virtual
 .venv/
