@@ -5,6 +5,7 @@
 ### Estructura del proyecto
 
 ```text
+GitOps-Local
 ├── CHANGELOG.md
 ├── README.md
 ├── scripts
@@ -101,6 +102,12 @@ Estando situado en el directorio raíz del proyecto
 ```sh
 GitOps-Local$ python3 tools/generar_diagrama.py
 GiOps-Local$ dot -Tpng infra.dot -o infra.png
+```
+### Paso 4
+Genere reporte en JSON con la validación de cada módulo.
+
+```sh
+GitOps-Local$ python3 tools/verificar_estado.py 
 ```
 
 ## Sprint 1

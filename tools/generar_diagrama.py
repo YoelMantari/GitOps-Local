@@ -33,16 +33,21 @@ def extraer_recursos_dependencias(
 
         dst = f"{recurso['type']} {recurso['name']}"
         nodos.append(dst)
-        
-        # extraer las dependencias
+
         for instancia in recurso.get("instances", []):
             for dep in instancia.get("dependencies", []):
-
                 partes = dep.split(".")
-                if len(partes) >= 2 and partes[-2] == "null_resource":
-                    src = f"{partes[-2]} {partes[-1]}"
-                    if (src, dst) not in aristas:
-                        aristas.append((src, dst))
+
+                # solo tomamos caminos con 0 o 1 aparición de module
+                if partes[-2] != "null_resource":
+                    continue
+                if partes[:-2].count("module") > 1:
+                    continue 
+
+                src = f"{partes[-2]} {partes[-1]}"
+                if (src, dst) not in aristas:
+                    aristas.append((src, dst))
+
     return nodos, aristas
 
 
