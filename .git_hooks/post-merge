@@ -4,7 +4,7 @@ set -e
 
 rama_actual=$(git symbolic-ref --short HEAD)
 
-if [ $rama_actual == "feature/deploy-pipeline" ]; then
+if [ $rama_actual == "main" ]; then
     echo "Rama actual es '$rama_actual', ejecutando deploy_all.sh"
     ./scripts/deploy_all.sh
 else
