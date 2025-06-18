@@ -1,1 +1,18 @@
-.terraform/
+# Terraform
+# .terraform/
+# **/terraform.tfstate
+# **/.terraform/
+# **/.terraform.lock.hcl
+
+# servicios_simulados/
+
+# Entorno virtual
+.venv/
+
+# Mitchel
+elimina_todo.py
+requirements.txt
+PC3.md
+
+# BDD - en progreso
+features/
