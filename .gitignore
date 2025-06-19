@@ -6,9 +6,6 @@
 
 servicios_simulados/
 
-
-logs/
-
 # Entorno virtual
 .venv/
 
