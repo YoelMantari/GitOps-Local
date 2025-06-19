@@ -1,9 +1,8 @@
 #!/usr/bin/bash
 
-#set -e
-
 TAG=$1
 LRED='\033[0;31m'
+GREEN='\033[0;32m'
 NC='\033[0m'
 
 if [ $# -ne 1 ]; then
@@ -18,23 +17,15 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "El tag '$TAG' existe"
-TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
-git checkout $TAG >> /tmp/rollback_$TIMESTAMP.log 2>&1
+DIR_TR="terraform"
+MODULOS=("servicio_a" "servicio_c" "servicio_b" "servicio_d")
+DIR_TAG=$(echo "$TAG" | sed 's/\./_/g')
+DIR_BACKUPS="backups/$DIR_TAG"
 
-if [ $? -ne 0 ]; then 
-    echo -e "${LRED}Hay cambios sin confirmar. Confirma o guarda tus cambios (stash)${NC}"
-    exit 1
-fi
+for modulo in ${MODULOS[@]}; do
+    cp -p "$DIR_BACKUPS/$modulo/tfstate_$TAG.tfstate" "terraform/$modulo/terraform.tfstate"
+done
 
-echo "Restaurando a version $TAG"
+echo "${GREEN}Restaurando a version ${TAG}${NC}"
+echo ""
 ./scripts/deploy_all.sh
-
-
-# Añadir **funcionalidad avanzada** de rollback local:
- #* Script `rollback.sh` que, dado un tag Git (p. ej., `v-0`), 
- # restaure el estado de `terraform.tfstate` correspondiente y 
- # ejecute `terraform apply` para volver al despliegue previo.
- #* El script debe:
-	#* Validar que el tag existe.
-	#* Copiar el backup de estado en `backups/tfstate_vX.tfstate`.
-	#* Forzar el estado local y aplicar el plan.
