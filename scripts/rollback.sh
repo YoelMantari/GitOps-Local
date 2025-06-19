@@ -26,6 +26,6 @@ for modulo in ${MODULOS[@]}; do
     cp -p "$DIR_BACKUPS/$modulo/tfstate_$TAG.tfstate" "terraform/$modulo/terraform.tfstate"
 done
 
-echo "${GREEN}Restaurando a version ${TAG}${NC}"
+echo -e "${GREEN}Restaurando a version ${TAG}${NC}"
 echo ""
 ./scripts/deploy_all.sh
