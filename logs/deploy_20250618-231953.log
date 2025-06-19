@@ -1,0 +1,276 @@
+Initializing the backend...
+Initializing provider plugins...
+- Reusing previous version of hashicorp/null from the dependency lock file
+- Reusing previous version of hashicorp/local from the dependency lock file
+- Using previously-installed hashicorp/null v3.2.4
+- Using previously-installed hashicorp/local v2.5.3
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+null_resource.servicio_a: Refreshing state... [id=8771288233724656698]
+local_file.servicio_dummy: Refreshing state... [id=5a2809ee0f769dd3492bdd53ab8e0d1a26dd6059]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # local_file.servicio_dummy will be created
+  + resource "local_file" "servicio_dummy" {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/home/dirac/Documents/DS/GitOps-Local/servicios_simulados/servicio_dummy_A.service"
+      + id                   = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+local_file.servicio_dummy: Creating...
+local_file.servicio_dummy: Creation complete after 0s [id=a6616c3274ca703fe123cc188696e53b4b1c2bfb]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+Initializing the backend...
+Initializing modules...
+Initializing provider plugins...
+- Reusing previous version of hashicorp/local from the dependency lock file
+- Reusing previous version of hashicorp/null from the dependency lock file
+- Using previously-installed hashicorp/local v2.5.3
+- Using previously-installed hashicorp/null v3.2.4
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+module.servicio_a.local_file.servicio_dummy: Refreshing state... [id=b34fb4ce6e7317767ab74ae6dc2d0ea8e1afc2f5]
+module.servicio_a.null_resource.servicio_a: Refreshing state... [id=7594903794493526689]
+null_resource.servicio_c: Refreshing state... [id=5189715582138057298]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # local_file.servicio_dummy will be created
+  + resource "local_file" "servicio_dummy" {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/home/dirac/Documents/DS/GitOps-Local/servicios_simulados/db_dummy.txt"
+      + id                   = (known after apply)
+    }
+
+  # module.servicio_a.local_file.servicio_dummy will be created
+  + resource "local_file" "servicio_dummy" {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/home/dirac/Documents/DS/GitOps-Local/servicios_simulados/servicio_dummy_A.service"
+      + id                   = (known after apply)
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+local_file.servicio_dummy: Creating...
+module.servicio_a.local_file.servicio_dummy: Creating...
+module.servicio_a.local_file.servicio_dummy: Creation complete after 0s [id=fedce6e549caf44ce5f731dd0ec80516d0e893e2]
+local_file.servicio_dummy: Creation complete after 0s [id=c785254a83a8b8c067a0fca8a992ddb8f3449dbe]
+
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+Initializing the backend...
+Initializing modules...
+Initializing provider plugins...
+- Reusing previous version of hashicorp/null from the dependency lock file
+- Reusing previous version of hashicorp/local from the dependency lock file
+- Using previously-installed hashicorp/null v3.2.4
+- Using previously-installed hashicorp/local v2.5.3
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+module.servicio_c.module.servicio_a.null_resource.servicio_a: Refreshing state... [id=8290191218549315080]
+local_file.servicio_dummy: Refreshing state... [id=84eb6cf2bcf5123f3e166f379e782a5666022171]
+module.servicio_c.module.servicio_a.local_file.servicio_dummy: Refreshing state... [id=84eb6cf2bcf5123f3e166f379e782a5666022171]
+module.servicio_c.null_resource.servicio_c: Refreshing state... [id=4655234923691359330]
+null_resource.servicio_b: Refreshing state... [id=4364075706985955479]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # local_file.servicio_dummy will be created
+  + resource "local_file" "servicio_dummy" {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/home/dirac/Documents/DS/GitOps-Local/servicios_simulados/servicio_dummy_B.service"
+      + id                   = (known after apply)
+    }
+
+  # module.servicio_c.local_file.servicio_dummy will be created
+  + resource "local_file" "servicio_dummy" {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/home/dirac/Documents/DS/GitOps-Local/servicios_simulados/db_dummy.txt"
+      + id                   = (known after apply)
+    }
+
+  # module.servicio_c.module.servicio_a.local_file.servicio_dummy will be created
+  + resource "local_file" "servicio_dummy" {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/home/dirac/Documents/DS/GitOps-Local/servicios_simulados/servicio_dummy_A.service"
+      + id                   = (known after apply)
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+module.servicio_c.module.servicio_a.local_file.servicio_dummy: Creating...
+local_file.servicio_dummy: Creating...
+module.servicio_c.local_file.servicio_dummy: Creating...
+module.servicio_c.module.servicio_a.local_file.servicio_dummy: Creation complete after 0s [id=39ce5419f675e6a7af9b590461242fee8ad1395e]
+local_file.servicio_dummy: Creation complete after 0s [id=39ce5419f675e6a7af9b590461242fee8ad1395e]
+module.servicio_c.local_file.servicio_dummy: Creation complete after 0s [id=59b8c196199c2dc3190e05b6ced1650faceb5b05]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+Initializing the backend...
+Initializing modules...
+Initializing provider plugins...
+- Reusing previous version of hashicorp/local from the dependency lock file
+- Reusing previous version of hashicorp/null from the dependency lock file
+- Using previously-installed hashicorp/local v2.5.3
+- Using previously-installed hashicorp/null v3.2.4
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+module.servicio_b.module.servicio_c.module.servicio_a.null_resource.servicio_a: Refreshing state... [id=2258264413017640814]
+module.servicio_b.module.servicio_c.module.servicio_a.local_file.servicio_dummy: Refreshing state... [id=f4ba9a32d9aa3360adad44673b4d563f70b63f69]
+module.servicio_b.local_file.servicio_dummy: Refreshing state... [id=f4ba9a32d9aa3360adad44673b4d563f70b63f69]
+module.servicio_b.module.servicio_c.null_resource.servicio_c: Refreshing state... [id=4453232201833176036]
+module.servicio_b.null_resource.servicio_b: Refreshing state... [id=7760375672855320056]
+null_resource.servicio_d: Refreshing state... [id=3446376636890549700]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.servicio_b.local_file.servicio_dummy will be created
+  + resource "local_file" "servicio_dummy" {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/home/dirac/Documents/DS/GitOps-Local/servicios_simulados/servicio_dummy_B.service"
+      + id                   = (known after apply)
+    }
+
+  # module.servicio_b.module.servicio_c.local_file.servicio_dummy will be created
+  + resource "local_file" "servicio_dummy" {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/home/dirac/Documents/DS/GitOps-Local/servicios_simulados/db_dummy.txt"
+      + id                   = (known after apply)
+    }
+
+  # module.servicio_b.module.servicio_c.module.servicio_a.local_file.servicio_dummy will be created
+  + resource "local_file" "servicio_dummy" {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/home/dirac/Documents/DS/GitOps-Local/servicios_simulados/servicio_dummy_A.service"
+      + id                   = (known after apply)
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+module.servicio_b.module.servicio_c.module.servicio_a.local_file.servicio_dummy: Creating...
+module.servicio_b.module.servicio_c.local_file.servicio_dummy: Creating...
+module.servicio_b.module.servicio_c.module.servicio_a.local_file.servicio_dummy: Creation complete after 0s [id=c4893f27f903383fca43ca5b1d02824580c993be]
+module.servicio_b.local_file.servicio_dummy: Creating...
+module.servicio_b.module.servicio_c.local_file.servicio_dummy: Creation complete after 0s [id=5ec6dff1671edbe6aa6360501ea8ecfd57b5adeb]
+module.servicio_b.local_file.servicio_dummy: Creation complete after 0s [id=c4893f27f903383fca43ca5b1d02824580c993be]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
