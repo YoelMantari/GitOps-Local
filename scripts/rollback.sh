@@ -27,7 +27,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Restaurando a version $TAG"
-./scripts/hola.sh
+./scripts/deploy_all.sh
 
 
 # Añadir **funcionalidad avanzada** de rollback local:
