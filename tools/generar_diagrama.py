@@ -18,7 +18,7 @@ def extraer_recursos_dependencias(
     ruta_estado: Path
 ) -> tuple[list[str], list[tuple[str, str]]]:
     """
-    Lee un archivo .tfstate y extrae los nombres de recursos y
+    Lee un archivo .tfstate y extrae los nombres y tipo de recursos y
     sus dependencias, y
     retorna una lista de nodos y aristas
     """
@@ -28,25 +28,32 @@ def extraer_recursos_dependencias(
     aristas: list[tuple[str, str]] = []
 
     for recurso in datos.get("resources", []):
-        if recurso["type"] != "null_resource":
+        if recurso["type"] not in ("null_resource", "local_file"):
             continue
 
-        dst = f"{recurso['type']} {recurso['name']}"
+        # nombre del nodo
+        if recurso["type"] == "local_file":
+            dst = f"{recurso['type']}.{recurso['name']}"
+        else:
+            dst = f"{recurso['type']} {recurso['name']}"
         nodos.append(dst)
 
+        # dependencias
         for instancia in recurso.get("instances", []):
             for dep in instancia.get("dependencies", []):
                 partes = dep.split(".")
 
                 # solo tomamos caminos con 0 o 1 aparición de module
-                if partes[-2] != "null_resource":
+                if len(partes) < 2 or partes[-2] not in ("null_resource", "local_file"):
                     continue
-                if partes[:-2].count("module") > 1:
-                    continue 
 
-                src = f"{partes[-2]} {partes[-1]}"
-                if (src, dst) not in aristas:
-                    aristas.append((src, dst))
+                src_type, src_name = partes[-2], partes[-1]
+                if src_type == "local_file":
+                    src = f"{src_type}.{src_name}"
+                else:
+                    src = f"{src_type} {src_name}"
+
+                aristas.append((src, dst))
 
     return nodos, aristas
 
