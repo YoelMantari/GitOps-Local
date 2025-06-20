@@ -2,7 +2,7 @@
 
 ### Estructura del proyecto
 
-text
+```text
 ├── CHANGELOG.md
 ├── infra.dot
 ├── infra.png
@@ -39,7 +39,7 @@ text
 └── tools
     ├── generar_diagrama.py
     └── verificar_estado.py
-
+```
 
 
 ### Paso 0
