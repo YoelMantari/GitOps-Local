@@ -29,3 +29,4 @@ echo "Ejecutando terraform plan..."
 terraform -chdir="terraform/$MODULO" plan -no-color | tee "$LOG_FILE"
 
 echo "Resultado guardado en $LOG_FILE"
+
