@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 import re
+import os
+from collections import defaultdict, deque
 
 raiz_terraform = Path("terraform")
 arch_dot = Path("infra.dot")
@@ -73,6 +75,41 @@ def detectar_drift_en_log(log_file: Path) -> list[str]:
     return sorted(set(drift))
 
 
+def filtrar_aristas_transitivas(
+    aristas: list[tuple[str, str]]
+) -> list[tuple[str, str]]:
+    """
+    Elimina las aristas directas que 
+    tienen transitividad en el grafo, tiene como entrada
+    la lista de conexiones (origen, destino) y 
+    retorna lista de aristas sin aristas directas
+    que ya presentan transitidad
+    """
+    grafo = defaultdict(set)
+    for src, dst in aristas:
+        grafo[src].add(dst)
+
+    def tiene_ruta_alterna(src, dst):
+        q = deque([src])
+        vistos = {src}
+        while q:
+            u = q.popleft()
+            for v in grafo[u]:
+                if u == src and v == dst:
+                    continue
+                if v == dst:
+                    return True
+                if v not in vistos:
+                    vistos.add(v)
+                    q.append(v)
+        return False
+    resultado = []
+    for src, dst in aristas:
+        if not tiene_ruta_alterna(src, dst):
+            resultado.append((src, dst))
+    return resultado
+
+
 def generar_dot(
     nodos: list[str],
     aristas: list[tuple[str, str]]
@@ -99,6 +136,7 @@ def generar_dot(
 
     lineas.append("}")
     return "\n".join(lineas)
+
 
 
 def main():
