@@ -3,9 +3,12 @@ from pathlib import Path
 import re
 import os
 from collections import defaultdict, deque
+import datetime
 
 raiz_terraform = Path("terraform")
 arch_dot = Path("infra.dot")
+drift_report_md = Path("drift_report.md")
+logs_dir = Path("logs")
 
 
 def buscar_archivos_estado(raiz_tf: Path) -> list[Path]:
@@ -147,8 +150,33 @@ def generar_dot(
     return "\n".join(lineas)
 
 
+def generar_drift_report(drifted_resources):
+    with drift_report_md.open("w") as f:
+        f.write(f"# Reporte de drift de terraform\n\n")
+        f.write(f"**fecha y hora:** {datetime.datetime.now():%Y-%m-%d %H:%M:%S}\n\n")
+        if drifted_resources:
+            f.write("Se detectaron los siguientes recursos con **drift**:\n\n")
+            for r in sorted(drifted_resources):
+                f.write(f"- `{r}`\n")
+            f.write("#### Se recomienda \n\n")
+            f.write("Revisar modulos afectados y ejecutar `terraform plan` y luego `terraform apply`.\n")
+        else:
+            f.write("No se detecto ningun drift\n")
+    print(f"Reporte generado en {drift_report_md}")
+
 
 def main():
+    # se lee el ultimo log del drift
+    logs = sorted(logs_dir.glob("drift_*.log"), key=os.path.getmtime, reverse=True)
+    if logs:
+        latest = logs[0]
+        print(f"Analizando log: {latest}")
+        drift = detectar_drift_en_log(latest)
+    else:
+        print("No se encontraron logs de drift.")
+        drift = []
+    generar_drift_report(drift)
+
     # se busca los archivos .tfstate en la carpeta terraform
     estados_tf = buscar_archivos_estado(raiz_terraform)
     if not estados_tf:
@@ -166,8 +194,12 @@ def main():
         nodos_total.extend(nodos)
         aristas_total.extend(aristas)
 
+    # se elimina los duplicados y solo se muestras las transtividad
+    aristas_total = list(set(aristas_total))
+    aristas_total = filtrar_aristas_transitivas(aristas_total)
+
     # se genera el grafo dot y se escribe el archivo
-    dot = generar_dot(nodos_total, aristas_total)
+    dot = generar_dot(nodos_total, aristas_total, drift)
     arch_dot.write_text(dot)
 
 
