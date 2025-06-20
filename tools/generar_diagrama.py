@@ -112,28 +112,37 @@ def filtrar_aristas_transitivas(
 
 def generar_dot(
     nodos: list[str],
-    aristas: list[tuple[str, str]]
+    aristas: list[tuple[str, str]],
+    drifted_resources: list[str]
 ) -> str:
-
     """
-    Genera el texto para el grafo dot a partir de una lista de nodos
-    y retorna un string para el contenido del archivo .dot
+    Genera el contenido del grafo DOT a partir de nodos y aristas,
+    resalta los recursos con drift en rojo y ajusta la forma de los nodos
+    según su tipo,
+    retorna el texto completo del grafo en formato DOT.
     """
 
     lineas = ["digraph Infra {", "  graph [rankdir=LR];"]
 
     for nodo in dict.fromkeys(nodos):
-        if "servicio_c" in nodo:
+        # forma
+        if nodo.startswith("local_file"):
+            shape = "trapezium"
+        elif nodo.startswith("null_resource servicio_c"):
             shape = "cylinder"
-        elif "servicio_d" in nodo:
+        elif nodo.startswith("null_resource servicio_d"):
             shape = "trapezium"
         else:
             shape = "box"
-        lineas.append(f'  "{nodo}" [shape={shape}];')
+        # color
+        if nodo in drifted_resources:
+            color, style = "red", "bold"
+        else:
+            color, style = "black", "solid"
+        lineas.append(f'  "{nodo}" [shape={shape}, color="{color}", fontcolor="{color}", style="{style}"];')
 
-    for ini, dest in dict.fromkeys(aristas):
+    for ini, dest in aristas:
         lineas.append(f'  "{ini}" -> "{dest}";')
-
     lineas.append("}")
     return "\n".join(lineas)
 
