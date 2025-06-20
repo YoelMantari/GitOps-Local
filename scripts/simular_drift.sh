@@ -13,19 +13,20 @@ LOG_FILE="$LOG_DIR/drift_$TIMESTAMP.log"
 ORIGINAL="servicio_dummy_A.service"
 DRIFTED="servicio_drift_A.service"
 
-# Crear carpeta de logs si no existe
+# crear carpeta de logs si no existe
 mkdir -p "$LOG_DIR"
 
 echo "Simulando drift en módulo: $MODULO"
 echo "Reemplazando '$ORIGINAL' por '$DRIFTED' en $RUTA_TF"
 
-# Hacemos una copia de respaldo del archivo original (opcional pero recomendado)
+# hacemos una copia de respaldo del archivo original
 cp "$RUTA_TF" "$RUTA_TF.bak"
 
-# Modificamos el archivo con sed
+# modificamos el archivo con sed
 sed -i "s/$ORIGINAL/$DRIFTED/g" "$RUTA_TF"
 
 echo "Ejecutando terraform plan..."
 terraform -chdir="terraform/$MODULO" plan -no-color | tee "$LOG_FILE"
 
 echo "Resultado guardado en $LOG_FILE"
+
