@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import re
 
 raiz_terraform = Path("terraform")
 arch_dot = Path("infra.dot")
@@ -56,6 +57,20 @@ def extraer_recursos_dependencias(
                 aristas.append((src, dst))
 
     return nodos, aristas
+
+
+def detectar_drift_en_log(log_file: Path) -> list[str]:
+    drift = []
+    conte = log_file.read_text()
+    patron = re.compile(r'^[~\-\+]\s+resource\s+"(null_resource|local_file)"\s+"([^"]+)"')
+    if "Terraform will perform the following actions:" in conte:
+        acciones = conte.split("Terraform will perform the following actions:")[-1]
+        for linea in acciones.splitlines():
+            m = patron.search(linea.strip())
+            if m:
+                t, name = m.group(1), m.group(2)
+                drift.append(f"{t}.{name}" if t == "local_file" else f"{t} {name}")
+    return sorted(set(drift))
 
 
 def generar_dot(
