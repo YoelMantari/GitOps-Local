@@ -10,7 +10,7 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
-git show $TAG >> /tmp/rollback.log 2>&1
+git show $TAG #>> /tmp/rollback.log 2>&1
 if [ $? -ne 0 ]; then
     echo -e "${LRED}El tag '$TAG' no existe${NC}"
     exit 1
