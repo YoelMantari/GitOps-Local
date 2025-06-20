@@ -1,5 +1,14 @@
 digraph Infra {
- graph [rankdir=LR];
- "null_resource servicio_dummy_b" [shape=box];
- "null_resource servicio_dummy_a" [shape=box];
+  graph [rankdir=LR];
+  "local_file.servicio_dummy" [shape=trapezium, color="red", fontcolor="red", style="bold"];
+  "null_resource servicio_b" [shape=box, color="black", fontcolor="black", style="solid"];
+  "local_file.db_dummy" [shape=trapezium, color="black", fontcolor="black", style="solid"];
+  "null_resource servicio_c" [shape=cylinder, color="black", fontcolor="black", style="solid"];
+  "null_resource servicio_a" [shape=box, color="black", fontcolor="black", style="solid"];
+  "null_resource servicio_d" [shape=trapezium, color="black", fontcolor="black", style="solid"];
+  "null_resource servicio_c" -> "null_resource servicio_b";
+  "local_file.db_dummy" -> "null_resource servicio_b";
+  "null_resource servicio_a" -> "null_resource servicio_c";
+  "local_file.servicio_dummy" -> "null_resource servicio_c";
+  "null_resource servicio_b" -> "null_resource servicio_d";
 }
