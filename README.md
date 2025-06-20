@@ -1,32 +1,46 @@
 # GitOps-Local
 
-## Sprint 2
-
 ### Estructura del proyecto
 
-```text
-GitOps-Local
+text
 ├── CHANGELOG.md
+├── infra.dot
+├── infra.png
+├── logs
+│   ├── deploy_2025(varios)
 ├── README.md
+├── reporte_validacion.json
 ├── scripts
 │   ├── cola_dummy.py
 │   ├── deploy_all.sh
+│   ├── guarda_tag_state.sh
 │   ├── instala_servicio.sh
+│   ├── rollback.sh
+│   ├── simular_drift.sh
 │   └── validate.sh
+├── servicios_simulados
+│   ├── db_dummy.txt
+│   ├── servicio_dummy_A.service
+│   └── servicio_dummy_B.service
 ├── terraform
 │   ├── main.tf
 │   ├── servicio_a
 │   │   ├── main.tf
+│   │   └── terraform.tfstate
 │   ├── servicio_b
 │   │   ├── main.tf
+│   │   └── terraform.tfstate
 │   ├── servicio_c
 │   │   ├── main.tf
+│   │   └── terraform.tfstate
 │   └── servicio_d
 │       ├── main.tf
+│       └── terraform.tfstate
 └── tools
     ├── generar_diagrama.py
     └── verificar_estado.py
-```
+
+
 
 ### Paso 0
 
@@ -46,18 +60,18 @@ GitOps-Local$ chmod +x scripts/validate.sh
 
 Modificar variables:
 
-La ruta de ejecución de Python, solo si es necesario. Se muestra el valor por defecto:
+Modificar la ruta de ejecución de Python en el archivo main.tf del modulo servicio_d
 
 ```python
-variable "ruta_raiz_proyecto" {
-  description = "Ruta raiz del directorio principal del proyecto"
-  type = string
-  default = "python3" # Modificar aqui
+variable "python_exec" {
+  description = "Ruta al ejecutable de Python."
+  type        = string
+  default     = "python3" # Modifica aqui
 }
 ```
 
 ### Paso 1
-Estando el el directorio raíz `/GitOps-Local`
+Estando el el directorio raíz /GitOps-Local
 
 ```sh
 GitOps-Local$ ./scripts/deploy_all.sh 
@@ -70,8 +84,8 @@ Comprobar que el proceso Python esta escuchando en un puerto local.
 netstat -ltnp | grep 1234
 ```
 
-- `-l`: solo sockets en **escucha**
-- `t` : solo **TCP**.
+- `-l`: solo sockets en *escucha*
+- `-t` : solo *TCP*.
 - `-n`: Muestra IP y puerto
 - `-p`: Muestra el programa/proceso que abrió el puerto
 
@@ -84,7 +98,7 @@ nc localhost 1234
 
 Luego escribir en el terminal los mensajes necesarios. Al hacer enter despues de ingresar cada mensaje, saldra en la siguiente línea "Se agrego: 'aqui el mensaje' a la cola". Si se desea obtener todos los mensajes de la cola, ingresar: "GET".
 
-**Nota**
+*Nota*
 Omitir `-p` si hay porblemas con sudo.
 
 
@@ -96,80 +110,40 @@ kill <PID>
 ```
 
 ### Paso 3
-Generar el diagrama.
+
+Simular drift
+
+```sh
+GitOps-Local$ ./scripts/simular_drift.sh
+```
+
+
+### Paso 4
+Generar el diagrama y reporte del drift.
 Estando situado en el directorio raíz del proyecto
 
 ```sh
 GitOps-Local$ python3 tools/generar_diagrama.py
 GiOps-Local$ dot -Tpng infra.dot -o infra.png
 ```
-### Paso 4
+
+### Paso 5
 Genere reporte en JSON con la validación de cada módulo.
 
 ```sh
 GitOps-Local$ python3 tools/verificar_estado.py 
 ```
 
-## Sprint 1
-
-Estructura del proyecto
-
-```text
-└── terraform
-    ├── servicio_a
-    │           └── main.tf
-    └── servicio_b
-        └── main.tf
-├── scripts
-│   └── validate.sh
-├── CHANGELOG.md
-├── README.md
-```
-
-Para definir la carpeta que usara Git para lanzar los hooks:
+### Paso 6
+Realizar un rollback. Para ello se debe ingresar un tag. La convención de tags utilizada en este proyecto es `vX.Y.Z`
 
 ```sh
-git config core.hooksPath .git_hooks
+./scripts/rollback.sh
 ```
 
----
-
-Estando en el directorio raíz del proyecto
+Para crear un tag y guardar los estados `tfstate` en el directorio `backups` de los modulos `servicio_a`,`servicio_b`, `servicio_c` y `servicio_d`
 
 ```sh
-$ cd terraform/servicio_a
-$ terraform init
-```
-
-Lo mismo para `terraform/servicio_b`
-
-Luego regresar al directorio raíz
-
-```sh
-$ cd ../..
-# Y se debe encontrar en 
-.../GitOps-Local
-```
-Ejecutar el script `validate.sh`
-```sh
-./scripts/validate.sh 
-```
-Este script `validate.sh` tambien se ejecuta durante el hook `pre-commit`
-
-
-### Generación del diagrama de infraestructura
-
-Se incluye `tools/generar_diagrama.py` que permite generar automáticamente un grafo DOT con los recursos aplicados.
-
-#### Generar `infra.dot`:
-
-```sh
-python3 tools/generar_diagrama.py > infra.dot
-```
-
-##### Generar `infra.png` a partir de `infra.dot` (requiere Graphviz instalado):
-
-```sh
-dot -Tpng infra.dot -o infra.png
+./guarda_tag_state.sh
 ```
 

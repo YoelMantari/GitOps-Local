@@ -8,7 +8,7 @@ locals {
 
   ruta_raiz_proyecto       = abspath("${path.module}/../../")
   ruta_servicios_simulados = abspath("${path.module}/../../servicios_simulados")
-
+  hora_local               = timeadd(timestamp(), "-5h")
 }
 
 # variable ruta_raiz_proyecto {
@@ -27,6 +27,10 @@ variable "service_name" {
   default     = "servicio_dummy_B.service"
 }
 
+resource "local_file" "servicio_dummy" {
+  filename = "${local.ruta_servicios_simulados}/${var.service_name}"
+  content  = "Servicio creado a las ${formatdate("YYYY-MM-DD hh:mm:ss", local.hora_local)}"
+}
 
 resource "null_resource" "servicio_b" {
 

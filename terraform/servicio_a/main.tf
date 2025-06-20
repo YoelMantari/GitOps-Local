@@ -12,6 +12,7 @@ locals {
 
   ruta_raiz_proyecto       = abspath("${path.module}/../../")
   ruta_servicios_simulados = abspath("${path.module}/../../servicios_simulados")
+  hora_local               = timeadd(timestamp(), "-5h")
 
 }
 
@@ -20,6 +21,12 @@ variable "service_name" {
   type        = string
   default     = "servicio_dummy_A.service"
 }
+
+resource "local_file" "servicio_dummy" {
+  filename = "${local.ruta_servicios_simulados}/${var.service_name}"
+  content  = "Servicio creado a las ${formatdate("YYYY-MM-DD hh:mm:ss", local.hora_local)}"
+}
+
 
 
 resource "null_resource" "servicio_a" {
@@ -32,7 +39,5 @@ resource "null_resource" "servicio_a" {
 
   provisioner "local-exec" {
     command = "${local.ruta_raiz_proyecto}/scripts/instala_servicio.sh ${var.service_name} ${local.ruta_servicios_simulados}"
-    # command = "if [ ! -f \"${var.ruta_servicios_simulados}/${var.service_name}\" ]; then ${var.ruta_raiz_proyecto}/scripts/instala_servicio.sh ${var.service_name} ${var.ruta_servicios_simulados}; fi"
-    # interpreter = ["bash", "-c"]
   }
 }

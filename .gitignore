@@ -4,7 +4,7 @@
 # **/.terraform/
 # **/.terraform.lock.hcl
 
-# servicios_simulados/
+servicios_simulados/
 
 # Entorno virtual
 .venv/
@@ -16,3 +16,6 @@ PC3.md
 
 # BDD - en progreso
 features/
+
+# main.tf principal
+terraform/main.tf
