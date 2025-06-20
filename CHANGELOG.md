@@ -3,7 +3,7 @@
 ## Dia 1
 
 **Yoel Mantari**
-- Se creó el repositorio y el tablero Kanban
+- Se creó el repositorio y el tablero Kanban [Proyecto GitOps-Local](https://github.com/users/YoelMantari/projects/10/views/1)
 - Se creó el `issue`: `Estructura inicial y validacion automatica`
 
 **Mitchel Soto**
